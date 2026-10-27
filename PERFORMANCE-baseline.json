@@ -1,0 +1,39 @@
+{
+  "scope": "Local build-container backend timings only. Browser frame rate was not measured. Repeat on facility hardware.",
+  "python": "3.12.14",
+  "datasets": [
+    {
+      "count": 100,
+      "active_objects": 100,
+      "csv_bytes": 23170,
+      "timings": {
+        "list_objects_median_ms": 1.504,
+        "sync_token_median_ms": 0.485,
+        "editable_csv_export_median_ms": 4.391,
+        "csv_roundtrip_preview_ms": 8.775
+      }
+    },
+    {
+      "count": 300,
+      "active_objects": 300,
+      "csv_bytes": 70011,
+      "timings": {
+        "list_objects_median_ms": 3.321,
+        "sync_token_median_ms": 0.372,
+        "editable_csv_export_median_ms": 8.985,
+        "csv_roundtrip_preview_ms": 18.636
+      }
+    },
+    {
+      "count": 1000,
+      "active_objects": 1000,
+      "csv_bytes": 234677,
+      "timings": {
+        "list_objects_median_ms": 13.088,
+        "sync_token_median_ms": 0.097,
+        "editable_csv_export_median_ms": 29.385,
+        "csv_roundtrip_preview_ms": 67.881
+      }
+    }
+  ]
+}

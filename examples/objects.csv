@@ -1,0 +1,7 @@
+external_id,name,floor,layer,shape,coordinates,radius,description,status,tags,details,links
+EXAMPLE-AIR,Example air outlet,ground,Compressed air,point,"(295,445)",,Illustrative location only,sample,example,Connector | Example quick coupling,
+EXAMPLE-AREA,Example rectangle,upper,Areas,rectangle,"(200,300),(400,500)",,Illustrative area only,sample,example,,
+EXAMPLE-CIRCLE,Example circle,ground,Areas,circle,"(600,300)",40,Illustrative area only,sample,example,,
+EXAMPLE-SLOT,Example slot,upper,Areas,slot,"(600,300),(750,400)",20,Illustrative area only,sample,example,,
+EXAMPLE-POLYGON,Example polygon,ground,Areas,polygon,"(200,200),(300,200),(250,300)",,Illustrative area only,sample,example,,
+EXAMPLE-ROUTE,Example route,upper,Routes,line,"(100,100),(200,200),(300,200)",,Illustrative route only,sample,example,,

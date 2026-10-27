@@ -1,0 +1,4 @@
+[
+  {"id":"ground","name":"Ground floor","width":1440,"height":720,"plan_url":"/assets/plan.svg"},
+  {"id":"upper","name":"Upper floor","width":1440,"height":720,"plan_url":"/assets/plan.svg"}
+]

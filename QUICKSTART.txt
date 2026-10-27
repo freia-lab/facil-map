@@ -1,0 +1,27 @@
+FREIA FACILITY MAP — PROTOTYPE 0.4.2
+
+1. Extract the ZIP fully.
+2. Requires Python 3.10+. Windows: double-click start-windows.bat.
+   The launcher installs Pillow for photos if needed (package access required).
+   Linux/macOS: ./start.sh
+3. Open http://127.0.0.1:8000.
+4. Keep the command window open; Ctrl+C stops the app.
+
+UPGRADING? Read UPDATING.txt first and preserve your complete data folder.
+
+TRY IT
+Search pressurized air and click a sample point.
+Switch floors: the view stays fixed; the upper floor initially has no objects.
+Choose a theme, including Solarized light, and a separate plan treatment.
+Sign in, enable Edit mode, then select an object to edit it immediately.
+Add a photo and Save. Changed drafts show an Unsaved changes indicator.
+Import offers a CSV template and a preview before applying any changes.
+Export offers editable CSV and full JSON.
+
+All sample locations and values are illustrative.
+Local demo display names do not verify identity.
+Records are stored in data/freia.sqlite3; photos in data/images/.
+See README.md for accounts, hosting, backups, recovery, and performance tests.
+
+Map setup requires an administrator account. See UPDATING.txt to assign one.
+Calibration enables the 2 m grid, scale bar and distance tool.

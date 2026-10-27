@@ -1,0 +1,16 @@
+/* Contrast follows the drawing treatment, which can differ from the app theme. */
+:root{--grid-stroke:#263843}
+:root[data-plan=dark],:root[data-plan=auto][data-theme=midnight],:root[data-plan=auto][data-theme=black]{--grid-stroke:#e0e8ed}
+:root[data-plan=light]{--grid-stroke:#263843}
+#survey-layer .grid-line{stroke:var(--grid-stroke);stroke-width:1;stroke-dasharray:3 6;opacity:.18}
+#survey-layer .grid-axis-labels .grid-label{fill:var(--muted);stroke:none;font-weight:600}
+.grid-label{fill:var(--ink,#273c4d);stroke:var(--panel,#fff);stroke-width:3px;paint-order:stroke;stroke-linejoin:round;font-weight:650}
+#scale-indicator{position:absolute;left:24px;bottom:48px;border:solid currentColor;border-width:0 2px 3px;text-align:center;font-size:12px;font-weight:650;color:var(--ink,#263b4d);background:var(--panel,#fff);min-width:15px;pointer-events:none}
+#survey-help{position:absolute;top:12px;left:12px;right:65px;padding:12px;background:var(--panel,#fff);color:var(--ink,#263b4d);border:2px solid #d74747;border-radius:8px;display:flex;gap:12px;align-items:center}#survey-help[hidden]{display:none}
+.geometry-editor{padding:12px 0;border-block:1px solid var(--line,#ddd)}.geometry-editor summary{cursor:pointer;font-weight:650}.vertices-scroll{max-height:260px;overflow:auto}.vertices-scroll table{width:100%}.vertices-scroll input{min-width:0;width:100%}.geometry-move{display:grid;grid-template-columns:1fr 1fr;gap:8px}.geometry-move button{grid-column:1/-1}.reference-row{display:flex;align-items:center;gap:10px;margin:8px 0}.reference-row input{width:auto}#setup-dialog{max-height:90vh;overflow:auto}#setup-content h3{margin-top:24px}#setup-content>button{margin:4px}#setup-history{display:grid;gap:6px;margin-top:10px}.map-toolbar{flex-wrap:wrap;gap:6px}.toolbar-actions{flex-wrap:wrap}.map-footer{gap:12px}.map-footer span:last-child{text-align:right}
+
+html[data-theme] .small-button[aria-pressed="true"]{background:var(--selected);border-color:var(--selected-border);color:var(--teal)}
+
+/* Survey modes keep a precise cursor even above object shapes and handles. */
+#map.survey-targeting,#map.survey-targeting *{cursor:crosshair}
+#map.survey-targeting.dragging,#map.survey-targeting.dragging *{cursor:grabbing}

@@ -1,0 +1,10 @@
+services:
+  map:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - map-data:/data
+    restart: unless-stopped
+volumes:
+  map-data:

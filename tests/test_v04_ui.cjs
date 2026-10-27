@@ -1,0 +1,20 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const {environment}=require('./dom_stub.cjs');const env=environment(),ctx=env.context;
+for(const name of ['app','v03','v04'])vm.runInContext(fs.readFileSync(path.join(__dirname,'../static/'+name+'.js'),'utf8').replace(/\ninit\(\);\s*$/,''),ctx);
+function run(s){return vm.runInContext(s,ctx);}function value(s){return JSON.parse(run('JSON.stringify('+s+')'));}
+run(`const proto=Object.getPrototypeOf(document.createElement('div'));proto.insertBefore=function(child,before){this.append(child);this.children.splice(this.children.indexOf(child),1);this.children.splice(this.children.indexOf(before),0,child);};
+state.config={width:1440,height:720,plan_url:'/assets/plan.svg',floors:[{id:'ground',name:'Ground floor',plan_url:'/assets/plan.svg'},{id:'upper',name:'Upper floor',plan_url:'/assets/plan.svg'}],categories:[{id:'air',name:'Air',color:'#168ca5',symbol:'A',version:1,aliases:[]}],map_settings:{metres_per_pixel:.04,grid_origin:[0,0],landmarks:[]}};state.categories=new Set(['air']);state.session={username:'Piotr',is_admin:true};
+const base={id:'one',version:3,title:'Outlet',category:'air',description:'Original',status:'verified',tags:[],details:[],links:[],floor_id:'ground',external_id:'AIR-1',photos:[{id:'abc',caption:'Photo'}],main_photo:'abc',geometry:{type:'rectangle',points:[[100,200],[140,220]]}};state.objects=[base];`);
+assert.equal(run("zone([575,25])"),'A12');assert.equal(run("zone([575,75])"),'B12');assert.equal(run("rowLetter(26)"),'AA');
+const t=value('similarity([[0,0],[100,0]],[[50,70],[50,270]])');assert.deepEqual(t,[0,2,-2,0,50,70]);
+assert.deepEqual(value('transformPoint([100,50],'+JSON.stringify(t)+')'),[-50,270]);assert.deepEqual(value('inversePoint([-50,270],'+JSON.stringify(t)+')'),[100,50]);
+assert.throws(()=>run('similarity([[0,0],[0,0]],[[0,0],[2,0]])'));
+run('state.grid=true;renderOverlay();');assert.ok(env.get('#survey-layer').children.length>0);assert.equal(env.get('#scale-indicator').hidden,false);
+run('state.pointer=[575,25];renderOverlay();');assert.match(env.get('#map-status').textContent,/A12/);
+run('setView([100,50,400,300]);');env.flush();assert.equal(run('zone([575,25])'),'A12','grid references do not change with camera');
+run("state.floor='upper';const copy=makeDuplicate(base);");assert.equal(run('copy.id'),undefined);assert.equal(run('copy.external_id'),'');assert.equal(run('copy.status'),'unverified');assert.equal(run('copy.floor_id'),'upper');assert.deepEqual(value('copy.geometry'),value('base.geometry'));run('copy.geometry.points[0][0]=999;');assert.equal(run('base.geometry.points[0][0]'),100);assert.deepEqual(value('copy.photos'),[{id:'abc',caption:'Photo'}]);
+run("state.floor='ground';beginDraft(base,true);");const advanced=env.get('#editor-form').querySelector('details');assert.ok(advanced,'advanced geometry editor is available');assert.equal(advanced.open,false);assert.equal(advanced.querySelectorAll('input').length,6);
+run('state.draft.geometry.points[0][0]=115;renderMap();');assert.equal(run('draftIsDirty()'),true);
+run('clearDraft();state.measurePoints=[[0,0],[75,100]];renderOverlay();');assert.equal(run('dist(...state.measurePoints)*metric()'),5);
+run('state.config.map_settings.metres_per_pixel=null;renderOverlay();');assert.equal(env.get('#grid-btn').disabled,true);assert.equal(env.get('#measure-btn').disabled,true);
+clearTimeout(run('toastTimer'));console.log('PASS: registration/inverse math, fixed grid zones, scale controls, independent duplicate drafts, collapsed vertex editor, dirty geometry and measurement conversion.');

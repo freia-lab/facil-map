@@ -1,0 +1,23 @@
+FREIA prototype 0.4 verification — 2026-10-26
+
+28 Python tests passed: existing regression suite plus real HTTP administrator
+permissions, live revocation, SVG validation, calibration, stale setup writes,
+registration preserving objects, revision rollback, backup/restore and restart.
+
+Three JavaScript controller suites passed, including registration/inverse math,
+fixed grid references under camera changes, duplicate isolation, advanced editor,
+dirty geometry, distance conversion, and all prior controller regressions.
+JavaScript syntax checks passed.
+
+Browser smoke test on a separate disposable database: administrator setup,
+direct pixel/metre calibration and Apply, enabled metric tools, grid/scale,
+two-point measurement/cursor status, duplicate draft default fields, and expanded
+advanced geometry controls. No real facility scale was entered in the package.
+The browser smoke test did not exercise file selection/replacement alignment;
+HTTP and controller tests cover those backend and mathematical behaviors.
+
+Package contains no runtime database, uploaded media, test accounts, credentials,
+or preview-only configuration. Docker build was not run.
+
+0.4.1: JavaScript syntax and both v0.3/v0.4 controller regression suites pass
+after grid appearance changes. This styling update was not browser-verified.

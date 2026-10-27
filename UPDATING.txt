@@ -1,0 +1,35 @@
+UPDATING TO PROTOTYPE 0.4
+
+1. Stop the old app with Ctrl+C.
+2. Back up the COMPLETE data folder, including images.
+3. Extract the new ZIP to a separate folder.
+4. Copy the old data folder into the new freia-map folder.
+5. Start using start-windows.bat, or your Linux virtual environment and start.sh.
+6. Open the app and press Ctrl+F5.
+
+Existing records, floors, accounts, passwords, photo files, layers and object
+revision numbers are retained. On first start an automatic pre-v0.4 SQLite
+snapshot is created in data/. No metric scale is assumed. Existing objects
+keep their plan-pixel coordinates; there is no geometry conversion.
+
+Existing accounts remain editors. To enable Map setup for an existing account,
+run on the server (activate your Python virtual environment first if using one):
+
+  python server.py --set-role YOUR_USERNAME --role admin
+
+Use python3 if that is your Python command. Sign in again after assigning the
+role. For a new account, create it first using --create-user YOUR_USERNAME.
+Local demo mode permits any signed-in demo name to use setup; it cannot be
+used for shared network hosting.
+
+New controls: 2 m grid, Measure, Map setup (administrators), cursor X/Y status,
+Advanced position/geometry in object editing, and Duplicate object in viewing.
+The scale bar and metric tools activate after an administrator calibrates.
+
+Map setup supports named references, safe SVG replacement upload, alignment
+preview, and setup revision rollback. Both floors share scale and coordinates.
+Uploaded SVGs and setup history are compressed inside the database and included
+in database snapshots; photos still use the separate shared image pool.
+
+Read README.md for complete setup, SVG export restrictions and backup recovery.
+Do not run old and new versions against the same database at once.

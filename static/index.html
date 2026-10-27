@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FREIA · Facility map</title>
+  <meta name="description" content="Interactive FREIA facility plan: find services, equipment, and areas.">
+  <script src="/theme.js"></script><link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/v03.css"><script src="/app.js" defer></script><script src="/v03.js" defer></script><script src="/v04.js" defer></script><link rel="stylesheet" href="/v04.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="FREIA facility map home"><span class="brand-mark" aria-hidden="true">F</span><span><strong>FREIA</strong><small>Facility map</small></span></a>
+    <span class="project-label">HALL / INTERACTIVE PLAN</span>
+    <nav aria-label="Application"><label class="theme-picker"><span class="sr-only">Colour theme</span><select id="theme-select"><option value="light">Light</option><option value="grey">Light grey</option><option value="solarized">Solarized light</option><option value="midnight">Midnight</option><option value="black">Black</option></select></label><label class="theme-picker"><span class="sr-only">Plan treatment</span><select id="plan-theme"><option value="auto">Plan: auto</option><option value="light">Plan: light</option><option value="dark">Plan: dark</option></select></label><button id="import-btn" class="header-button">Import</button><button id="activity-btn" class="header-button">Recent changes</button><button id="export-btn" class="header-button">Export data</button><button id="identity-btn" class="identity">Sign in to edit</button></nav>
+  </header>
+  <div id="demo-banner" class="notice"><span class="notice-dot"></span><strong>Prototype</strong><span>Sample objects and locations are illustrative. Verify before replacing them with facility data.</span></div>
+  <main class="workspace">
+    <aside class="left-panel" aria-label="Find objects">
+      <div class="search-section"><div class="eyebrow">EXPLORE THE FACILITY</div><h1>Find what you need.</h1>
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Try “pressurized air”" aria-label="Search objects" autocomplete="off"></label>
+        <div class="search-hint">Search names, services, details, and keywords.</div><label class="search-scope"><input id="search-all" type="checkbox"> Search all floors</label>
+      </div>
+      <section class="category-section"><div class="section-heading"><h2>Map layers</h2><div class="layer-actions"><button id="all-layers" class="text-button">Show all</button><button id="manage-layers" class="text-button">Manage</button></div></div><div id="categories"></div></section>
+      <section class="results-section"><div class="section-heading"><h2 id="results-heading">Objects</h2><span id="result-count" class="count">0</span></div><div id="results" class="results" role="list"></div></section>
+      <div class="sidebar-footer"><span id="sync-status" class="sync-status">Connecting…</span><button id="refresh-btn" class="text-button">Refresh</button></div>
+    </aside>
+    <section class="map-panel" aria-label="Interactive facility plan">
+      <div class="map-toolbar"><div><label class="floor-picker"><span>FREIA hall</span><select id="floor-select" aria-label="Floor"><option value="ground">Ground floor</option><option value="upper">Upper floor</option></select></label><span class="plan-tag">ASSEMBLY 17</span><span id="edit-status" class="edit-status" hidden>EDITING</span></div><div class="toolbar-actions"><button id="labels-btn" class="small-button" aria-pressed="false">Labels</button><button id="edit-mode-btn" class="small-button">Edit mode</button></div></div>
+      <div id="edit-toolbar" class="edit-toolbar" hidden>
+        <span class="toolbar-caption">ADD</span><button data-tool="point">Point</button><button data-tool="rectangle">Rectangle</button><button data-tool="circle">Circle</button><button data-tool="slot">Slot</button><button data-tool="polygon">Polygon</button><button data-tool="line">Line</button><button id="finish-btn" hidden>Finish shape</button><button id="cancel-draw-btn" hidden>Cancel</button>
+      </div>
+      <div class="map-viewport" id="map-viewport">
+        <svg id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 720" role="group" aria-label="Facility map. Use the results list to select objects. Pan by dragging; zoom with the wheel or buttons." tabindex="0">
+          <rect id="plan-paper" x="0" y="0" width="1440" height="720" fill="white"/>
+          <image id="plan-image" x="0" y="0" width="1440" height="720" href="/assets/plan.svg"/>
+          <g id="objects-layer"></g><g id="draft-layer"></g><g id="handles-layer"></g>
+        </svg>
+        <div id="drawing-help" class="drawing-help" hidden></div>
+        <div class="map-controls"><button id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button><button id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button><button id="fit-map" title="Show whole plan" aria-label="Show whole plan">⌖</button></div>
+        <div id="map-loading" class="map-loading">Loading facility plan…</div>
+        <div class="map-footer"><span>Drag to pan · Scroll to zoom</span><span id="map-status">Plan units · No calibrated scale</span></div>
+      </div>
+    </section>
+    <aside id="detail-panel" class="detail-panel" aria-label="Object information"><div class="empty-details"><span class="empty-icon" aria-hidden="true">↗</span><div class="eyebrow">OBJECT INFORMATION</div><h2>A place for every detail.</h2><p>Select a marker, shape, or search result to see its information and links.</p><div class="empty-tip">Try searching for <button id="try-air" class="text-button">pressurized air</button>.</div></div></aside>
+  </main>
+  <dialog id="login-dialog"><form id="login-form"><div class="eyebrow">EDIT THE FACILITY MAP</div><h2 id="login-title">Choose a display name</h2><p id="login-description"></p><label>Name / username<input name="username" required maxlength="100" autocomplete="username" placeholder="Your name"></label><label id="password-label" hidden>Password<input name="password" type="password" autocomplete="current-password"></label><p id="login-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="login-cancel" class="secondary">Cancel</button><button type="submit" class="primary">Continue</button></div></form></dialog>
+  <dialog id="activity-dialog" class="wide-dialog"><div class="dialog-heading"><div><div class="eyebrow">SHARED RECORD</div><h2>Recent changes</h2></div><button id="activity-close" class="icon-button" aria-label="Close recent changes">×</button></div><p class="muted">Select a change to inspect its object, including deleted objects.</p><div id="activity-list"></div></dialog>
+  <dialog id="layers-dialog" class="wide-dialog"><div class="dialog-heading"><div><div class="eyebrow">MAP LAYERS</div><h2>Manage layers</h2></div><button id="layers-close" class="icon-button" aria-label="Close layers">×</button></div><p class="muted">Organise objects and choose their colours, marker symbols, and search aliases.</p><div id="layers-list"></div><button id="new-layer" class="primary">Add layer</button><div id="layer-editor" hidden></div></dialog>
+  <dialog id="confirm-dialog" class="confirm-popover" aria-labelledby="confirm-title"><h2 id="confirm-title">Discard changes?</h2><p id="confirm-message"></p><div class="dialog-actions"><button id="confirm-save" class="primary" hidden>Save and switch</button><button id="confirm-no" class="secondary">Keep editing</button><button id="confirm-yes" class="danger">Discard</button></div></dialog>
+  <dialog id="photo-dialog" class="photo-dialog"><button id="photo-close" class="icon-button" aria-label="Close photo">×</button><img id="photo-full" alt="Object identification photo"><p id="photo-caption"></p></dialog>
+  <dialog id="conflict-dialog" class="conflict-dialog"><div class="dialog-heading"><div><div class="eyebrow">CONCURRENT EDIT</div><h2>Review changes</h2></div><button id="conflict-close" class="icon-button" aria-label="Close comparison">×</button></div><p id="conflict-summary" class="muted"></p><form id="conflict-form"><div id="conflict-fields"></div><div class="dialog-actions"><button id="conflict-cancel" type="button" class="secondary">Keep draft</button><button type="submit" class="primary">Use reviewed changes</button></div></form></dialog>
+  <dialog id="import-dialog" class="import-dialog"><div class="dialog-heading"><div><div class="eyebrow">REVIEW BEFORE SAVING</div><h2>Import objects</h2></div><button id="import-close" class="icon-button" aria-label="Close import">×</button></div><p class="muted">Stable external IDs match existing records. Missing rows do not delete objects. Photos remain attached to updated records.</p><a href="/api/import/template" class="text-button">Download CSV template</a><label class="import-file">UTF-8 CSV file<input id="import-file" type="file" accept=".csv,text/csv"></label><button id="import-preview" class="primary">Preview file</button><p id="import-error" class="error" role="alert"></p><div id="import-results"></div><button id="import-apply" class="primary" hidden>Apply reviewed changes</button></dialog>
+  <dialog id="export-dialog"><div class="dialog-heading"><h2>Export data</h2><button id="export-close" class="icon-button" aria-label="Close export">×</button></div><p class="muted">CSV is editable and can be imported again. JSON includes objects and revision histories. Photo files are backed up separately.</p><a href="/api/export.csv" class="primary download-link">Download editable CSV</a><button id="json-export" class="secondary">Download full JSON</button><button id="performance-btn" class="secondary" hidden>Measure map performance</button><pre id="performance-results" hidden></pre></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript>This application needs JavaScript enabled.</noscript>
+</body>
+</html>
